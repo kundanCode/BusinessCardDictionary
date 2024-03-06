@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Busniess card Table</title>
+</head>
+<body>
+	{% load static %}
+	<meta charset="utf-8">
+	<link href="assets/img/favicon.ico" rel="icon" type="image/png">
+	<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" rel="stylesheet"><!-- CSS  ALerttify -->
+	<link href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" rel="stylesheet"><!-- Default theme  ALerttify -->
+	<link href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" rel="stylesheet"><!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js">-->
+	<!--    </script>-->
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="{% static 'css/fresh-bootstrap-table.css' %}" rel="stylesheet">
+	<link href="{% static 'css/demo.css' %}" rel="stylesheet"><!--   Fonts and icons   -->
+	<link href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
+	<link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js">
+	</script>
+	<script src="https://unpkg.com/bootstrap-table/dist/bootstrap-table.js">
+	</script>
+
+	<style>
+
+
+
+    .table td {
+      max-width: 100px; /* Set the maximum width for the table cell */
+      white-space: nowrap; /* Prevent text from wrapping */
+      overflow: hidden; /* Hide any content that overflows */
+      text-overflow: ellipsis; /* Add an ellipsis (...) at the end of the truncated text */
+    }
+
+
+
+
+
+	.fixed-table-pagination {
+	   position: fixed;
+	   left: 0;
+	   bottom: 0;
+	   width: 1263px;
+	   background-color: #343a40;
+	   color: white !important;
+	   text-align: center;
+	   padding-left: 20px;
+	<!--margin-left: 77px !important;-->
+	   float: left;
+	   height:57px;
+	}
+
+	.btn.btn-danger:hover {
+	  background: #dc3545;
+	  color: #fff;
+	}
+
+.bootstrap-table .fixed-table-container.fixed-height .table thead th {
+    border: 1px solid #AAAAAA!important;
+}
+	span.caret {display: none; }
+
+	.bootstrap-table .fixed-table-container .fixed-table-body {
+	   overflow-x: auto;
+	   overflow-y: hidden;
+	   height: auto;
+	}
+
+	   .glyphicon-refresh:before {
+	   content: "\e031";
+	   color: #000;
+	}
+
+
+	.fresh-table[class*=full-color-] .fixed-table-toolbar .btn, .fresh-table[class*=toolbar-color-] .fixed-table-toolbar .btn {
+	   border-color: #000;
+	   color: #000;
+	}
+
+
+	.fresh-table[class*=full-color-] .form-control, .fresh-table[class*=toolbar-color-] .form-control {
+	   border-color: #000;
+	   background-color: transparent;
+	   color: #000;
+	}
+
+	       .fixed-table-toolbar {
+	           margin-top: -19px;
+	       }
+	.bg-color {
+	  background: #dae1e8;
+	 }
+
+	         body {
+	         background: #dae1e8 !important;
+	         /* background: url(../img/bg.jpg); */
+	         background-size: cover;
+	         height: 100vh;
+	         background-attachment: fixed;
+	         background-size: 100% 100%;
+	      }
+
+
+
+	         .bootstrap-table.bootstrap3 {
+	         background:   #dae1e8;
+	      }
+	      .pull-right.search.input-group {
+	         width: 200px;
+	      }
+
+
+	         .brand {
+	           width: 200px;
+	         }
+
+
+	         .image_b {
+	             width: 500px;
+	             height: 500px;
+	             overflow: hidden;
+	             margin: 0 auto;
+	         }
+
+	         .image_b img {
+	             width: 100%;
+	             transition: 0.5s all ease-in-out;
+	         }
+
+	         .image_b:hover img {
+	             transform: scale(1.5);
+	         }
+
+.fresh-table .fixed-table-pagination {
+margin: 0
+}
+
+	         a.nav-link  {
+	         font-size: 14px;
+    padding: 15px 10px 0;
+				}
+				.navbar {
+				    height: 54px;
+				}
+
+	</style>
+
+
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark mb-0" style=" display: inline-block; width: 100%; border-radius: 0px;">
+		<div class="container-fluid1">
+
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="/bsn_card">Home</a>
+				</li>
+				<li class="nav-item active ml-4">
+					<a class="nav-link active" href="/bsn_card">Business Card</a>
+				</li>
+
+                <li class="nav-item ml-5">
+                   <a class="nav-link m-0 p-0 pt-2">
+                        <form action="" enctype="multipart/form-data" method="post" style="color: white;" class="form-inline">
+                            {% csrf_token %} {{form}}
+                            <input class="btn btn-danger" type="submit" value="Upload">
+                        </form>
+                    </a>
+                </li>
+			</ul>
+
+          <ul class="navbar-nav ml-auto pull-right">
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                      Hi {{request.user.first_name | title}}
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right">
+                      <a class="dropdown-item" href="/logout">Settings</a>
+                      <a class="dropdown-item" href="/logout">Logout</a>
+                  </div>
+              </li>
+          </ul>
+		</div>
+	</nav>
+
+    <div class="row m-0">
+        <div class="col-12 m-0">
+			<br />
+            <div class=" m-0">
+                 <form class="form-inline m-0 my-lg-0 bg-color"action="report_gen" method="post">
+                  <input class="form-control mr-sm-2" type="date" name="from_date" placeholder="Search" aria-label="From date">
+                  <input class="form-control mr-sm-2" type="date" name="to_date" placeholder="Search" aria-label="To date">
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Report Generate</button>
+                </form>
+			<table class="table table-condensed" id="fresh-table">
+				<thead>
+					<tr>
+                        <th data-field="co" data-sortable="true">Company name</th>
+						<th data-field="id">Name</th>
+						<th data-field="name" data-sortable="true">Designation</th>
+						<th data-field="dept" data-sortable="true">Department</th>
+						<th data-field="email_id" data-sortable="true">Email Id</th>
+						<th data-field="phone_no" data-sortable="true">Phone no</th>
+<!--						<th data-field="city" data-sortable="true">Fax no</th>-->
+						<th data-field="url" data-sortable="true">URl</th>
+						<th data-field="img" data-sortable="true">card</th>
+						<th data-field="category" data-sortable="true">Category</th>
+                        <th data-field="comment" data-sortable="true">Comment</th>
+						<th data-field="created by" data-sortable="true">Created by</th>
+						<th data-field="Date" data-sortable="true">Date</th>
+					</tr>
+                </thead>
+				<tbody>
+	                    {% for item in data_list %}
+                       {% if item.category == 'contract' %}
+                            <tr  class="table-primary">
+                                <td>{{ item.com_name}}</td>
+                                <td >{{ item.name }}</td>
+                                <td>{{ item.desi }}</td>
+                                <td>{{ item.dept }}</td>
+
+                                <td class="text-nowrap">{{ item.email_id }}</td>
+                                <td>{{ item.phone_no }}</td>
+<!--                                <td>{{ item.fax_no }}</td>-->
+                                <td>{{ item.url }}</td>
+                                <td>
+                                    <a class="image_b" href="{{item.img_bsn}}" target="_blank">
+                                    <img src="{{ item.img_bsn }}" alt="" width="100" height="25">
+                                        </a>
+                                </td>
+                                <td>{{ item.category }}</td>
+                                <td>{{ item.comment }}</td>
+                                <td>{{ item.user__first_name }}</td>
+                                <td>{{ item.created_at__date }}</td>
+                            </tr>
+                       {% elif item.category == 'cold' %}
+                            <tr  class="table-success">
+                                  <td>{{ item.com_name}}</td>
+                                <td >{{ item.name }}</td>
+                                <td>{{ item.desi }}</td>
+                                <td>{{ item.dept }}</td>
+                                <td >{{ item.email_id }}</td>
+                                <td>{{ item.phone_no }}</td>
+<!--                                <td>{{ item.fax_no }}</td>-->
+                                <td>{{ item.url }}</td>
+                                <td>
+                                    <a class="image_b" href="{{item.img_bsn}}" target="_blank">
+                                    <img src="{{ item.img_bsn }}" alt="" width="100" height="25">
+                                        </a>
+                                </td>
+                                <td>{{ item.category }}</td>
+                                                                <td  class="vertical-clip">{{ item.comment }}</td>
+                                <td>{{ item.user__first_name }}</td>
+                                <td>{{ item.created_at__date }}</td>
+                            </tr>
+                     {% elif item.category == 'warm' %}
+                            <tr  class="table-warning">
+                                  <td>{{ item.com_name}}</td>
+                                <td >{{ item.name }}</td>
+                                <td>{{ item.desi }}</td>
+                                <td>{{ item.dept }}</td>
+                                <td  >{{ item.email_id }}</td>
+                                <td>{{ item.phone_no }}</td>
+<!--                                <td>{{ item.fax_no }}</td>-->
+                                <td>{{ item.url }}</td>
+                                <td>
+                                    <a class="image_b" href="{{item.img_bsn}}" target="_blank">
+                                    <img src="{{ item.img_bsn }}" alt="" width="100" height="25">
+                                        </a>
+                                </td>
+                                <td>{{ item.category }}</td>
+                                                                <td>{{ item.comment }}</td>
+                                <td>{{ item.user__first_name }}</td>
+                                <td>{{ item.created_at__date }}</td>
+                            </tr>
+
+                        {% elif item.category == 'hot' %}
+                            <tr class="table-danger">
+                                  <td>{{ item.com_name}}</td>
+                                <td >{{ item.name }}</td>
+                                <td>{{ item.desi }}</td>
+                                <td>{{ item.dept }}</td>
+                                <td>{{ item.email_id }}</td>
+                                <td>{{ item.phone_no }}</td>
+<!--                                <td>{{ item.fax_no }}</td>-->
+                                <td>{{ item.url }}</td>
+                                <td>
+                                    <a class="image_b" href="{{item.img_bsn}}" target="_blank">
+                                    <img src="{{ item.img_bsn }}" alt="" width="100" height="25">
+                                        </a>
+                                </td>
+                                <td>{{ item.category }}</td>
+                                                                <td>{{ item.comment }}</td>
+
+                                <td>{{ item.user__first_name }}</td>
+                                <td>{{ item.created_at__date }}</td>
+                            </tr>
+                            {% elif item.category == 'client' %}
+                            <tr>
+                                  <td>{{ item.com_name}}</td>
+                                <td >{{ item.name }}</td>
+                                <td>{{ item.desi }}</td>
+                                <td>{{ item.dept }}</td>
+                                <td>{{ item.email_id }}</td>
+                                <td>{{ item.phone_no }}</td>
+<!--                                <td>{{ item.fax_no }}</td>-->
+                                <td>{{ item.url }}</td>
+                                <td>
+                                    <a class="image_b" href="{{item.img_bsn}}" target="_blank">
+                                    <img src="{{ item.img_bsn }}" alt="" width="100" height="25">
+                                        </a>
+                                </td>
+                                <td>{{ item.category }}</td>
+                                                                <td>{{ item.comment }}</td>
+                                <td>{{ item.user__first_name }}</td>
+                                <td>{{ item.created_at__date }}</td>
+                            </tr>
+
+
+                             {% elif item.category == 'idle' %}
+                            <tr class="table-dark">
+                                  <td>{{ item.com_name}}</td>
+                                <td >{{ item.name }}</td>
+                                <td>{{ item.desi }}</td>
+                                <td>{{ item.dept }}</td>
+                                <td>{{ item.email_id }}</td>
+                                <td>{{ item.phone_no }}</td>
+<!--                                <td>{{ item.fax_no }}</td>-->
+                                <td>{{ item.url }}</td>
+                                <td>
+                                    <a class="image_b" href="{{item.img_bsn}}" target="_blank">
+                                    <img src="{{ item.img_bsn }}" alt="" width="100" height="25">
+                                        </a>
+                                </td>
+                                <td>{{ item.category }}</td>
+                                                                <td>{{ item.comment }}</td>
+                                <td>{{ item.user__first_name }}</td>
+                                <td>{{ item.created_at__date }}</td>
+                            </tr>
+
+                            {% else %}
+                            <tr >
+                                  <td>{{ item.com_name}}</td>
+                                <td >{{ item.name }}</td>
+                                <td>{{ item.desi }}</td>
+                                <td>{{ item.dept }}</td>
+                                <td>{{ item.email_id }}</td>
+                                <td>{{ item.phone_no }}</td>
+<!--                                <td>{{ item.fax_no }}</td>-->
+                                <td>{{ item.url }}</td>
+                                <td>
+                                    <a class="image_b" href="{{item.img_bsn}}" target="_blank">
+                                    <img src="{{ item.img_bsn }}" alt="" width="100" height="25">
+                                        </a>
+                                </td>
+                                <td>{{ item.category }}</td>
+                                                                <td>{{ item.comment }}</td>
+                                <td>{{ item.user__first_name }}</td>
+                                <td>{{ item.created_at__date }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+				</tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+
+	<script>
+     var $table = $('#fresh-table');
+
+     $(function () {
+           $table.bootstrapTable({
+             classes: 'table table-hover table-striped',
+             toolbar: '.toolbar',
+             search: true,
+             showRefresh: false,
+             showToggle: true,
+             showColumns: true,
+             pagination: true,
+             striped: true,
+             sortable: true,
+             height: $(window).height(),
+             pageSize: 8,
+             pageList: [5, 10, 20,30,40,50],
+             fullscreen :"true",
+
+
+             formatShowingRows: function (pageFrom, pageTo, totalRows) {
+               return ''
+             },
+             formatRecordsPerPage: function (pageNumber) {
+               return pageNumber + ' rows visible'
+             }
+       })
+
+
+
+   $(window).resize(function () {
+     $table.bootstrapTable('resetView', {
+       height: $(window).height()
+     })
+   })
+ })
+
+
+	</script>
+</body>
+</html>
